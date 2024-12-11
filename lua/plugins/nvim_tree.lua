@@ -47,6 +47,6 @@ return {
         sync_root_with_cwd = true,
     },
     init = function()
-        vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>')
+        vim.keymap.set('n', '<leader>e', '<Cmd>NvimTreeToggle<CR>', {desc = "NvimTree Toggle"})
     end
 }

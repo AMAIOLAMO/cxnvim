@@ -4,7 +4,8 @@ return {
     opts = {
         open_mapping = [[<M-h>]],
         autochdir = true, -- auto change directory when nvim changes
-        direction = 'float'
+        direction = 'float',
+        border = 'curved'
     }
 }
 
