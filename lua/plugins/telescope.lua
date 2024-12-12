@@ -11,5 +11,12 @@ return {
         vim.keymap.set('n', '<leader>ff', builtin.find_files, {desc = "Telescope Find Files"})
         vim.keymap.set('n', '<leader>fl', builtin.live_grep,  {desc = "Telescope Live Grep"})
         vim.keymap.set('n', '<C-p>',      builtin.git_files,  {desc = "Telescope Git Files"})
-    end
+
+        require('telescope').load_extension('fzf')
+    end,
+    opts = {
+        extensions = {
+            fzf = {}
+        }
+    }
 }
