@@ -5,7 +5,7 @@ return {
         require("telescope").load_extension("smart_open")
     end,
     init = function()
-        vim.keymap.set('n', '<leader><leader>', "<cmd>:Telescope smart_open<CR>", {desc = "Telescope Smart Open Files"})
+        vim.keymap.set('n', '<leader><leader>', "<cmd>:Telescope smart_open theme=ivy<CR>", {desc = "Telescope Smart Open Files"})
     end,
     dependencies = {
         "kkharji/sqlite.lua",
