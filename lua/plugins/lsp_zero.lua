@@ -33,6 +33,22 @@ return {
             filetypes = {"glsl", "frag", "vert"}
         })
 
+        local cmp = require("cmp")
+
+        -- biased setup, disable auto display of auto complete, instead manually call on Ctrl+Space
+        cmp.setup({
+            -- window = { -- oxocarbon theme does not support borders
+            --     completion = cmp.config.window.bordered(),
+            --     documentation = cmp.config.window.bordered(),
+            -- },
+            completion = {
+                autocomplete = false
+            },
+            mapping = cmp.mapping.preset.insert({
+                ["<C-Space>"] = cmp.mapping.complete(),
+            })
+        })
+
     end,
     dependencies = {
         'neovim/nvim-lspconfig',
