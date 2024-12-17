@@ -2,16 +2,18 @@
 -- stylua: ignore
 local colors = {
     fg       = '#bbc2cf',
-    yellow   = '#ECBE7B',
+    yellow   = '#ecbe7b',
     cyan     = '#008080',
     darkblue = '#081633',
     green    = '#98be65',
-    orange   = '#FF8800',
+    orange   = '#ff8800',
     violet   = '#a9a1e1',
     magenta  = '#c678dd',
     blue     = '#51afef',
     red      = '#ec5f67',
 }
+
+-- TODO: disable nvim tree sitter 
 local conditions = {
     buffer_not_empty = function()
         return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
