@@ -26,3 +26,6 @@ vim.keymap.set('n', '<C-l>', "<C-w>l")
 
 vim.keymap.set('n', '<C-=>', "<C-w>>") -- Expands window
 vim.keymap.set('n', '<C-->', "<C-w><") -- shrinks window
+
+-- QoL features
+vim.keymap.set('n', '<leader>tf', ":tab split<CR>", {desc = "Tab Focus Split"})
