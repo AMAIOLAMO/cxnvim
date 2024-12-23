@@ -29,3 +29,9 @@ vim.keymap.set('n', '<C-->', "<C-w><") -- shrinks window
 
 -- QoL features
 vim.keymap.set('n', '<leader>tf', ":tab split<CR>", {desc = "Tab Focus Split"})
+
+-- extension select, owo is kinda cute lol
+vim.cmd([[vnoremap <M-w> owo]])
+vim.cmd([[vnoremap <M-e> oeo]])
+vim.cmd([[vnoremap <M-W> oWo]])
+vim.cmd([[vnoremap <M-E> oEo]])

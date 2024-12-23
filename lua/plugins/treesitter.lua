@@ -16,7 +16,7 @@ return {
             indent = { enable = true },
 
             highlight = {
-                enable = true,
+                enable = false,
 
                 -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
                 disable = function(lang, buf)

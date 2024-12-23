@@ -1,3 +1,18 @@
+vim.g["lsp_zero_diagnostics_active"] = true
+
+local function set_diagnostics(enable)
+    vim.g.lsp_zero_diagnostics_active = enable
+    if enable then
+        vim.diagnostic.enable()
+    else
+        vim.diagnostic.disable()
+    end
+end
+
+local function toggle_diagnostics()
+    set_diagnostics(not vim.g.lsp_zero_diagnostics_active)
+end
+
 return {
     "VonHeikemen/lsp-zero.nvim",
     branch = 'v3.x',
@@ -7,6 +22,7 @@ return {
 
         lsp_zero.on_attach(function(client, bufnr)
             local opts = { buffer = bufnr, remap = false }
+            set_diagnostics(false) -- diable diagnostics by default
 
             vim.keymap.set('n', 'gd',         function() vim.lsp.buf.definition()   end, opts)
             vim.keymap.set('n', 'K',          function() vim.lsp.buf.hover()        end, opts)
@@ -14,7 +30,10 @@ return {
             vim.keymap.set('n', ']d',         function() vim.diagnostic.goto_prev() end, opts)
             vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action()  end, opts)
             vim.keymap.set('n', '<leader>ra', function() vim.lsp.buf.rename()       end, opts)
+
+            -- WARNING: LSP FORMATTING BY DEFAULT DOES NOT RESPECT TAB FORMATTING
             vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format()       end, opts)
+            vim.keymap.set('n', '<leader>cd', function() toggle_diagnostics()       end, opts)
             -- vim.keymap.set('n', '<leader>cr', function() vim.lsp.buf.references() end, opts)
 
             -- lsp_zero.default_keymaps({buffer = bufnr, remap = false})
