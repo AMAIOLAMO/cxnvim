@@ -9,27 +9,38 @@ return {
     'echasnovski/mini.files',
     version = '*',
     init = function()
-        vim.keymap.set("n", "<leader>e", mf_toggle, {desc = "Minifiles Toggle"})
+        local mf = require("mini.files")
+        vim.keymap.set("n", "<leader>e", mf_toggle, { desc = "Minifiles Toggle" })
+
+        -- automatically sychronize new directory
+        vim.api.nvim_create_autocmd(
+            { "DirChanged" }, {
+                callback = function()
+                    mf.close() -- close in all cases
+                    mf.open(vim.fn.getcwd())
+                end
+            }
+        )
     end,
     opts = {
         options = {
             use_as_default_explorer = true,
-        }
+        },
         -- default mappings for reference
-        -- mappings = {
-        --     close       = 'q',
-        --     go_in       = 'l',
-        --     go_in_plus  = 'L',
-        --     go_out      = 'h',
-        --     go_out_plus = 'H',
-        --     mark_goto   = "'",
-        --     mark_set    = 'm',
-        --     reset       = '<BS>',
-        --     reveal_cwd  = '@',
-        --     show_help   = 'g?',
-        --     synchronize = '=',
-        --     trim_left   = '<',
-        --     trim_right  = '>',
-        -- },
+        mappings = {
+            close       = 'q',
+            go_in       = 'l',
+            go_in_plus  = 'L',
+            go_out      = 'h',
+            go_out_plus = 'H',
+            mark_goto   = "'",
+            mark_set    = 'm',
+            reset       = '<BS>',
+            reveal_cwd  = '@',
+            show_help   = 'g?',
+            synchronize = ';',
+            trim_left   = '<',
+            trim_right  = '>',
+        },
     }
 }
