@@ -17,5 +17,4 @@ return {
     { "hiphish/rainbow-delimiters.nvim" },
 
     { "folke/which-key.nvim" },
-    { "wakatime/vim-wakatime" },
 }

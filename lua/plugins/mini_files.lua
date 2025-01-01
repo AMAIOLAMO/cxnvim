@@ -9,18 +9,7 @@ return {
     'echasnovski/mini.files',
     version = '*',
     init = function()
-        local mf = require("mini.files")
         vim.keymap.set("n", "<leader>e", mf_toggle, { desc = "Minifiles Toggle" })
-
-        -- automatically sychronize new directory
-        vim.api.nvim_create_autocmd(
-            { "DirChanged" }, {
-                callback = function()
-                    mf.close() -- close in all cases
-                    mf.open(vim.fn.getcwd())
-                end
-            }
-        )
     end,
     opts = {
         options = {
