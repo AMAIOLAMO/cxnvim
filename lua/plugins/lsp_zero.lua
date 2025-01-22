@@ -1,5 +1,4 @@
 vim.g["lsp_zero_diagnostics_active"] = true
-
 local function set_diagnostics(enable)
     vim.g.lsp_zero_diagnostics_active = enable
     if enable then
@@ -53,6 +52,7 @@ return {
             filetypes = { "glsl", "frag", "vert" }
         })
 
+
         local cmp = require("cmp")
 
         -- biased setup, disable auto display of auto complete, instead manually call on Ctrl+Space
@@ -66,7 +66,17 @@ return {
             },
             mapping = cmp.mapping.preset.insert({
                 ["<C-Space>"] = cmp.mapping.complete(),
-            })
+            }),
+            -- creates expansion of the snippet to cmp (requires saadparwaiz1/cmp_luasnip)
+            snippet = {
+                expand = function(args)
+                    require("luasnip").lsp_expand(args.body)
+                end
+            },
+            sources = {
+                { name = "nvim_lsp" },
+                { name = "luasnip" }
+            }
         })
     end,
     dependencies = {
@@ -74,5 +84,6 @@ return {
         'hrsh7th/nvim-cmp',
         'hrsh7th/cmp-nvim-lsp',
         'L3MON4D3/LuaSnip',
+        'saadparwaiz1/cmp_luasnip',
     }
 }
