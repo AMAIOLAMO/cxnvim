@@ -19,16 +19,22 @@ return {
     config = function()
         local lsp_zero = require("lsp-zero")
 
-        lsp_zero.on_attach(function(client, bufnr)
+        lsp_zero.on_attach(function(_, bufnr)
             local opts = { buffer = bufnr, remap = false }
             set_diagnostics(false) -- diable diagnostics by default
 
-            vim.keymap.set('n', 'gd',         function() vim.lsp.buf.definition()   end, opts)
-            vim.keymap.set('n', 'K',          function() vim.lsp.buf.hover()        end, opts)
-            vim.keymap.set('n', '[d',         function() vim.diagnostic.goto_next() end, opts)
-            vim.keymap.set('n', ']d',         function() vim.diagnostic.goto_prev() end, opts)
-            vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action()  end, opts)
-            vim.keymap.set('n', '<leader>ra', function() vim.lsp.buf.rename()       end, opts)
+            vim.keymap.set('n', 'gd',         function() vim.lsp.buf.definition()    end, opts)
+            vim.keymap.set('n', 'K',          function() vim.lsp.buf.hover()         end, opts)
+            vim.keymap.set('n', 'gi',         function() vim.lsp.buf.implementation()end, opts)
+            vim.keymap.set('n', 'gr',         function() vim.lsp.buf.references()    end, opts)
+            vim.keymap.set('n', '[d',         function() vim.diagnostic.jump({count =  1, float = true}) end, opts)
+            vim.keymap.set('n', ']d',         function() vim.diagnostic.jump({count = -1, float = true})  end, opts)
+
+            vim.keymap.set('n', '[e',         function() vim.diagnostic.jump({severity = vim.diagnostic.severity.ERROR, count =  1, float = true}) end, opts)
+            vim.keymap.set('n', ']e',         function() vim.diagnostic.jump({severity = vim.diagnostic.severity.ERROR, count = -1, float = true})  end, opts)
+
+            vim.keymap.set('n', '<leader>ca', function() vim.lsp.buf.code_action()   end, opts)
+            vim.keymap.set('n', '<leader>ra', function() vim.lsp.buf.rename()        end, opts)
 
             -- WARNING: LSP FORMATTING BY DEFAULT DOES NOT RESPECT TAB FORMATTING
             vim.keymap.set('n', '<leader>cf', function() vim.lsp.buf.format()       end, opts)
@@ -39,6 +45,7 @@ return {
         end)
 
         lsp_zero.setup()
+
         local lspconf = require("lspconfig")
 
         local lspconfig_defaults = lspconf.util.default_config
@@ -48,10 +55,29 @@ return {
             require('cmp_nvim_lsp').default_capabilities()
         )
 
-        lspconf.glsl_analyzer.setup({
-            filetypes = { "glsl", "frag", "vert" }
-        })
+        -- require("lspconfig").pylsp.setup(vim.tbl_deep_extend(
+        --     'force',
+        --     lspconfig_defaults, {
+        --         settings = {
+        --             pylsp = {
+        --                 plugins = {
+        --                     pylint = { enabled = "false" },
+        --                     pyflakes = { enabled = "false" },
+        --                     pycodestyle = { enabled = "false" },
+        --                 }
+        --             }
+        --         }
+        --     }
+        -- ))
 
+        -- local glsl_analyzer_config = lspconfig_defaults
+        -- glsl_analyzer_config.filetypes = {
+        --      "glsl", "frag", "vert"
+        -- }
+
+        lspconf.glsl_analyzer.setup({})
+
+        lspconf.gdscript.setup(lspconfig_defaults)
 
         local cmp = require("cmp")
 
@@ -67,12 +93,14 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
+
             -- creates expansion of the snippet to cmp (requires saadparwaiz1/cmp_luasnip)
             snippet = {
                 expand = function(args)
                     require("luasnip").lsp_expand(args.body)
                 end
             },
+
             sources = {
                 { name = "nvim_lsp" },
                 { name = "luasnip" }
