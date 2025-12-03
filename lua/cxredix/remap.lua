@@ -3,8 +3,8 @@ vim.g.mapleader = " "
 -- vim.keymap.set('n', '<leader>e', vim.cmd.Ex)
 -- we have mini files (replacement of the original netrw explorer)
 
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", {desc = "Move line down"})
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", {desc = "Move line up"})
+-- vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", {desc = "Move line down"})
+-- vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", {desc = "Move line up"})
 vim.keymap.set('n', 'J', 'mzJ`z', {desc = "Merge Next Line"})
 
 -- preserved paste
