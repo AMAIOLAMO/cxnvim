@@ -17,13 +17,13 @@ vim.keymap.set('n', '<leader>w', ":w<CR>", {desc = "Write File"})
 
 vim.cmd([[tnoremap <Esc> <C-\><C-n>]])
 
-vim.keymap.set('n', '<C-h>', "<C-w>h")
-vim.keymap.set('n', '<C-j>', "<C-w>j")
-vim.keymap.set('n', '<C-k>', "<C-w>k")
-vim.keymap.set('n', '<C-l>', "<C-w>l")
+vim.keymap.set('n', '<C-h>', "<C-w>h", {desc = "Go to left window"})
+vim.keymap.set('n', '<C-j>', "<C-w>j", {desc = "Go to bottom window"})
+vim.keymap.set('n', '<C-k>', "<C-w>k", {desc = "Go to top window"} )
+vim.keymap.set('n', '<C-l>', "<C-w>l",  {desc = "Go to right window"})
 
-vim.keymap.set('n', '<C-=>', "<C-w>>") -- Expands window
-vim.keymap.set('n', '<C-->', "<C-w><") -- shrinks window
+vim.keymap.set('n', '<C-=>', "<C-w>>", {desc = "Expand window"}) -- Expands window
+vim.keymap.set('n', '<C-->', "<C-w><", {desc = "Shrink window"}) -- shrinks window
 
 -- QoL features
 vim.keymap.set('n', '<leader>tf', ":tab split<CR>", {desc = "Tab Focus Split"})

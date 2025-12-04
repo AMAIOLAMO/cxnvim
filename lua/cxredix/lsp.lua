@@ -1,20 +1,9 @@
-vim.g["cxredix_diagnostics_active"] = true
-
-local function set_diagnostics(enable)
-    vim.g.cxredix_diagnostics_active = enable
-    if enable then
-        vim.diagnostic.enable()
-    else
-        vim.diagnostic.disable()
-    end
-end
-
 local function toggle_diagnostics()
-    set_diagnostics(not vim.g.cxredix_diagnostics_active)
+    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end
 
 local opts = { buffer = bufnr, remap = false }
-set_diagnostics(false) -- diable diagnostics by default
+vim.diagnostic.enable(false)
 
 vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition()    end, opts)
 vim.keymap.set('n', 'K',  function() vim.lsp.buf.hover()         end, opts)
