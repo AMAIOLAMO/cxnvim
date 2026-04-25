@@ -41,15 +41,7 @@ cmp.setup({
         ["<C-Space>"] = cmp.mapping.complete(),
     }),
 
-    -- creates expansion of the snippet to cmp (requires saadparwaiz1/cmp_luasnip)
-    snippet = {
-        expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-        end
-    },
-
     sources = {
         { name = "nvim_lsp" },
-        { name = "luasnip" }
     }
 })
