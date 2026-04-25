@@ -12,6 +12,8 @@ return {
         -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
     },
     config = function()
+        vim.keymap.set('n', '<leader>cm', ":below Compile<CR>", {desc = "Open Compile Mode"})
+
         ---@type CompileModeOpts
         vim.g.compile_mode = {
             -- if you use something like `nvim-cmp` or `blink.cmp` for completion,
