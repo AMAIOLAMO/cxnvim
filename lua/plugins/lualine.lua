@@ -2,6 +2,7 @@
 -- stylua: ignore
 local colors = {
     fg       = '#bbc2cf',
+    white    = '#ffffff',
     yellow   = '#ecbe7b',
     cyan     = '#008080',
     darkblue = '#081633',
@@ -19,11 +20,6 @@ local conditions = {
     end,
     hide_in_width = function()
         return vim.fn.winwidth(0) > 80
-    end,
-    check_git_workspace = function()
-        local filepath = vim.fn.expand('%:p:h')
-        local gitdir = vim.fn.finddir('.git', filepath .. ';')
-        return gitdir and #gitdir > 0 and #gitdir < #filepath
     end,
 }
 
@@ -68,6 +64,7 @@ return {
                 lualine_c = {},
                 lualine_x = {},
             },
+            extensions = {"toggleterm"}
         }
 
         -- Inserts a component in lualine_c at left section
@@ -84,7 +81,7 @@ return {
             function()
                 return '▊'
             end,
-            color = { fg = colors.blue }, -- Sets highlighting of component
+            color = { fg = colors.red }, -- Sets highlighting of component
             padding = { left = 0, right = 1 }, -- We don't need space before this
         }
 
@@ -122,21 +119,32 @@ return {
             padding = { right = 1 },
         }
 
+        -- ins_left {
+        --     -- filesize component
+        --     'filesize',
+        --     cond = conditions.buffer_not_empty,
+        -- }
+        
         ins_left {
-            -- filesize component
-            'filesize',
-            cond = conditions.buffer_not_empty,
+            function()
+                return vim.api.nvim_win_get_number(0)
+            end
         }
 
         ins_left {
             'filename',
             cond = conditions.buffer_not_empty,
-            color = { fg = colors.magenta, gui = 'bold' },
+            color = { fg = colors.red, gui = 'bold' },
+        }
+
+        ins_left {
+            'o:encoding', -- option component same as &encoding in viml
+            fmt = string.upper, -- I'm not sure why it's upper case either ;)
+            cond = conditions.hide_in_width,
+            color = { fg = colors.green, gui = 'bold' },
         }
 
         ins_left { 'location' }
-
-        ins_left { 'progress', color = { gui = 'bold' } }
 
         ins_left {
             'diagnostics',
@@ -160,7 +168,7 @@ return {
         ins_left {
             -- Lsp server name .
             function()
-                local msg = 'No Active Lsp'
+                local msg = 'None'
                 local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                 local clients = vim.lsp.get_clients()
                 if next(clients) == nil then
@@ -174,24 +182,11 @@ return {
                 end
                 return msg
             end,
-            icon = ' LSP:',
-            color = { fg = '#ffffff', gui = 'bold' },
+            icon = ' LSP: ',
+            color = { fg = colors.white, gui = 'bold' },
         }
 
         -- Add components to right sections
-        ins_right {
-            'o:encoding', -- option component same as &encoding in viml
-            fmt = string.upper, -- I'm not sure why it's upper case either ;)
-            cond = conditions.hide_in_width,
-            color = { fg = colors.green, gui = 'bold' },
-        }
-
-        ins_right {
-            'fileformat',
-            fmt = string.upper,
-            icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-            color = { fg = colors.green, gui = 'bold' },
-        }
 
         ins_right {
             'branch',
@@ -200,26 +195,13 @@ return {
         }
 
         ins_right {
-            'diff',
-            -- Is it me or the symbol for modified us really weird
-            symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
-            diff_color = {
-                added = { fg = colors.green },
-                modified = { fg = colors.orange },
-                removed = { fg = colors.red },
-            },
-            cond = conditions.hide_in_width,
-        }
-
-        ins_right {
             function()
                 return '▊'
             end,
-            color = { fg = colors.blue },
+            color = { fg = colors.red },
             padding = { left = 1 },
         }
 
-        -- Now don't forget to initialize lualine
         lualine.setup(config)
     end
 }
