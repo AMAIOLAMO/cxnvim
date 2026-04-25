@@ -26,19 +26,6 @@ vim.keymap.set('n', '<leader>cd', function() toggle_diagnostics() end, vim.tbl_e
 local lsp = vim.lsp
 local lspconfig = lsp.config
 
--- add root marker for all clients
-lspconfig(('*'), {
-    root_markers = { '.git' },
-})
-
-lspconfig('glsl_analyzer', {
-    cmd = {'glsl_analyzer'},
-    filetypes = {'vs', 'fs', 'glsl', 'vert', 'frag', 'tesc', 'tese', 'geom', 'comp'},
-    capabilities = {},
-})
-
-lsp.enable('glsl_analyzer')
-
 local cmp = require("cmp")
 
 -- biased setup, disable auto display of auto complete, instead you should manually call from Ctrl+Space

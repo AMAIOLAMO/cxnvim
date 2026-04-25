@@ -3,7 +3,8 @@ return {
     tag = "0.1.8",
     -- or                            , branch = "0.1.x",
     dependencies = {
-        "nvim-lua/plenary.nvim"
+        "nvim-lua/plenary.nvim",
+        "debugloop/telescope-undo.nvim",
     },
     init = function()
         local builtin = require("telescope.builtin")
@@ -17,6 +18,9 @@ return {
 
 
         require("telescope").load_extension("fzf")
+        require("telescope").load_extension("undo")
+
+        vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>", {desc = "Telescope Undo History"})
     end,
     opts = {
         pickers = {

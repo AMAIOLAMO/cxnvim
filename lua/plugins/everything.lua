@@ -1,11 +1,13 @@
 return {
     {
-        "nyoom-engineering/oxocarbon.nvim",
+        'sainnhe/sonokai',
         lazy = false,
         priority = 1000,
-		config = function()
-            vim.cmd.colorscheme("oxocarbon")
-		end
+        config = function()
+            vim.g.sonokai_enable_italic = true
+            vim.g.sonokai_style = 'shusia'
+            vim.cmd.colorscheme('sonokai')
+        end
     },
 
     {
