@@ -85,35 +85,36 @@ return {
             padding = { left = 0, right = 1 }, -- We don't need space before this
         }
 
+        local mode_color = {
+            n = colors.red,
+            i = colors.green,
+            v = colors.blue,
+            [''] = colors.blue,
+            V = colors.blue,
+            c = colors.magenta,
+            no = colors.red,
+            s = colors.orange,
+            S = colors.orange,
+            [''] = colors.orange,
+            ic = colors.yellow,
+            R = colors.violet,
+            Rv = colors.violet,
+            cv = colors.red,
+            ce = colors.red,
+            r = colors.cyan,
+            rm = colors.cyan,
+            ['r?'] = colors.cyan,
+            ['!'] = colors.red,
+            t = colors.red,
+        }
+
         ins_left {
             -- mode component
             function()
-                return '♥'
+                return vim.fn.mode()
             end,
             color = function()
                 -- auto change color according to neovims mode
-                local mode_color = {
-                    n = colors.red,
-                    i = colors.green,
-                    v = colors.blue,
-                    [''] = colors.blue,
-                    V = colors.blue,
-                    c = colors.magenta,
-                    no = colors.red,
-                    s = colors.orange,
-                    S = colors.orange,
-                    [''] = colors.orange,
-                    ic = colors.yellow,
-                    R = colors.violet,
-                    Rv = colors.violet,
-                    cv = colors.red,
-                    ce = colors.red,
-                    r = colors.cyan,
-                    rm = colors.cyan,
-                    ['r?'] = colors.cyan,
-                    ['!'] = colors.red,
-                    t = colors.red,
-                }
                 return { fg = mode_color[vim.fn.mode()] }
             end,
             padding = { right = 1 },
@@ -146,7 +147,15 @@ return {
 
         ins_left { 'location' }
 
+        -- Insert mid section. You can make any number of sections in neovim :)
+        -- for lualine it's any number greater then 2
         ins_left {
+            function()
+                return '%='
+            end,
+        }
+
+        ins_right {
             'diagnostics',
             sources = { 'nvim_diagnostic' },
             symbols = { error = ' ', warn = ' ', info = ' ' },
@@ -157,32 +166,28 @@ return {
             },
         }
 
-        -- Insert mid section. You can make any number of sections in neovim :)
-        -- for lualine it's any number greater then 2
-        ins_left {
-            function()
-                return '%='
-            end,
-        }
-
-        ins_left {
+        ins_right {
             -- Lsp server name .
             function()
                 local msg = 'None'
                 local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
                 local clients = vim.lsp.get_clients()
+
                 if next(clients) == nil then
-                    return msg
+                    goto ret
                 end
+
                 for _, client in ipairs(clients) do
                     local filetypes = client.config.filetypes
                     if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
                         return client.name
                     end
                 end
+
+                ::ret::
                 return msg
             end,
-            icon = ' LSP: ',
+            icon = ' LSP:',
             color = { fg = colors.white, gui = 'bold' },
         }
 
