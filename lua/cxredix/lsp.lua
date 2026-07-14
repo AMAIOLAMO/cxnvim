@@ -28,20 +28,86 @@ local lspconfig = lsp.config
 
 local cmp = require("cmp")
 
+
 -- biased setup, disable auto display of auto complete, instead you should manually call from Ctrl+Space
 cmp.setup({
+    view = {
+        entries = { name = 'custom', selection_order = 'near_cursor' }
+    },
+
     window = { -- oxocarbon theme does not support borders
-        completion = cmp.config.window.bordered(),
+        -- completion = cmp.config.window.bordered(),
+        completion = {
+            winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
+            col_offset = -3,
+            side_padding = 0,
+        },
+
         documentation = cmp.config.window.bordered(),
     },
+
+    formatting = {
+	-- word		the text that will be inserted, mandatory
+	-- abbr		abbreviation of "word"; when not empty it is used in
+	-- 		the menu instead of "word"
+	-- menu		extra text for the popup menu, displayed after "word"
+	-- 		or "abbr"
+	-- info		more information about the item, can be displayed in a
+	-- 		preview window
+	-- kind		single letter indicating the type of completion
+	-- icase		when non-zero case is to be ignored when comparing
+	-- 		items to be equal; when omitted zero is used, thus
+	-- 		items that only differ in case are added
+	-- equal		when non-zero, always treat this item to be equal when
+	-- 		comparing.  Which means, "equal=1" disables filtering
+	-- 		of this item.
+	-- dup		when non-zero this match will be added even when an
+	-- 		item with the same word is already present.
+	-- empty		when non-zero this match will be added even when it is
+	-- 		an empty string
+	-- user_data	custom data which is associated with the item and
+	-- 		available in |v:completed_item|; it can be any type;
+	-- 		defaults to an empty string
+	-- abbr_hlgroup	an additional highlight group whose attributes are
+	-- 		combined with |hl-PmenuSel| and |hl-Pmenu| or
+	-- 		|hl-PmenuMatchSel| and |hl-PmenuMatch| highlight
+	-- 		attributes in the popup menu to apply cterm and gui
+	-- 		properties (with higher priority) like strikethrough
+	-- 		to the completion items abbreviation
+	-- kind_hlgroup	an additional highlight group specifically for setting
+	-- 		the highlight attributes of the completion kind.  When
+	-- 		this field is present, it will override the
+	-- 		|hl-PmenuKind| highlight group, allowing for the
+	-- 		customization of ctermfg and guifg properties for the
+	-- 		completion kind
+	-- match		See "matches" in |complete_info()|.
+	--
+        format = function(entry, vim_item)
+            -- Kind icons
+            vim_item.kind = string.format(' [%s]  ', vim_item.kind)
+
+            vim_item.word = string.format('| %s', vim_item.word)
+
+            if vim_item.abbr ~= nil and vim_item.abbr ~= '' then
+                vim_item.abbr = string.format('| %s', vim_item.abbr)
+            end
+
+
+            return vim_item
+        end
+
+    },
+
     completion = {
         autocomplete = false
     },
+
     mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
     }),
 
     sources = {
         { name = "nvim_lsp" },
+        { name = "buffer" }
     }
 })
