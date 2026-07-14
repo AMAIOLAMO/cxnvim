@@ -86,8 +86,6 @@ cmp.setup({
             -- Kind icons
             vim_item.kind = string.format(' [%s]  ', vim_item.kind)
 
-            vim_item.word = string.format('| %s', vim_item.word)
-
             if vim_item.abbr ~= nil and vim_item.abbr ~= '' then
                 vim_item.abbr = string.format('| %s', vim_item.abbr)
             end
