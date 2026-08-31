@@ -10,7 +10,6 @@ vim.keymap.set('x', '<leader>pp', "\"_dP", {desc = "Preserved Paste"})
 
 -- yank to system clipboard
 vim.keymap.set('n', '<leader>y', "\"+y", {desc = "Yank -> Sys Clipboard"})
-vim.keymap.set('v', '<leader>y', "\"+y", {desc = "Yank -> Sys Clipboard"})
 
 vim.keymap.set('n', '<leader>q', ":q<CR>", {desc = "Quit"})
 vim.keymap.set('n', '<leader>w', ":w<CR>", {desc = "Write File"})
