@@ -13,7 +13,6 @@ return {
 
             -- retain original terminal colors
             vim.g.sonokai_disable_terminal_colors = true
-
             vim.g.sonokai_better_performance = true
 
             vim.cmd.colorscheme('sonokai')

@@ -1,3 +1,11 @@
+local has_fzf_exe = vim.fn.executable("fzf") == 1
+
+local telescope_extensions = {}
+
+if has_fzf_exe then
+    telescope_extensions.fzf = {}
+end
+
 return {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.8",
@@ -17,7 +25,10 @@ return {
         vim.keymap.set("n", "<leader>cr", builtin.lsp_references,  {desc = "Telescope LSP References"})
 
 
-        require("telescope").load_extension("fzf")
+        if has_fzf_exe then
+            require("telescope").load_extension("fzf")
+        end
+
         require("telescope").load_extension("undo")
 
         vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>", {desc = "Telescope Undo History"})
@@ -40,8 +51,6 @@ return {
                 theme = "ivy"
             }
         },
-        extensions = {
-            fzf = {}
-        }
+        extensions = telescope_extensions
     }
 }
