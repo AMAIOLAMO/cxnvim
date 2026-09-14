@@ -102,6 +102,8 @@ cmp.setup({
 
     mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-,>"] = cmp.mapping.scroll_docs(2),  -- scroll down
+        ["<C-.>"] = cmp.mapping.scroll_docs(-2), -- scroll up
     }),
 
     sources = {
